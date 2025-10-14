@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
-import { Users } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { Users, Settings, LogOut, LogIn } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/contexts/AuthContext";
+import { Button } from "@/components/ui/button";
 import { EmployeeCard } from "@/components/EmployeeCard";
 import { SearchBar } from "@/components/SearchBar";
 import { useToast } from "@/hooks/use-toast";
@@ -23,6 +26,8 @@ const Index = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [loading, setLoading] = useState(true);
   const { toast } = useToast();
+  const { user, isAdmin, signOut } = useAuth();
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchEmployees();
@@ -66,13 +71,37 @@ const Index = () => {
       {/* Header */}
       <header className="border-b border-border bg-card/50 backdrop-blur-sm sticky top-0 z-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <div className="flex items-center gap-3 mb-6">
+          <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center gap-3">
             <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-primary to-primary-dark flex items-center justify-center">
               <Users className="w-6 h-6 text-primary-foreground" />
             </div>
-            <div>
-              <h1 className="text-3xl font-bold text-foreground">Employee Directory</h1>
-              <p className="text-sm text-muted-foreground">Find and connect with team members</p>
+              <div>
+                <h1 className="text-3xl font-bold text-foreground">Employee Directory</h1>
+                <p className="text-sm text-muted-foreground">Find and connect with team members</p>
+              </div>
+            </div>
+            
+            <div className="flex gap-2">
+              {user ? (
+                <>
+                  {isAdmin && (
+                    <Button onClick={() => navigate('/admin')} variant="outline" size="sm">
+                      <Settings className="h-4 w-4 mr-2" />
+                      Admin
+                    </Button>
+                  )}
+                  <Button onClick={signOut} variant="outline" size="sm">
+                    <LogOut className="h-4 w-4 mr-2" />
+                    Sign Out
+                  </Button>
+                </>
+              ) : (
+                <Button onClick={() => navigate('/auth')} variant="outline" size="sm">
+                  <LogIn className="h-4 w-4 mr-2" />
+                  Sign In
+                </Button>
+              )}
             </div>
           </div>
           
