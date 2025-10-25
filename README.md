@@ -1,5 +1,3 @@
-Perfect! If you want to use Supabase as the backend and Vercel for Employee Directory Web Application
-
 A full-stack Employee Directory web app where users can search, view, and manage employee details.
 Built using React (frontend) with Supabase (backend & database) and deployed on Vercel.
 
