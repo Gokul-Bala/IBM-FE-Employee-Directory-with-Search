@@ -1,6 +1,12 @@
 import { Mail, Phone, MapPin, Calendar } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import avatar1 from "@/assets/avatars/avatar-1.jpg";
+import avatar2 from "@/assets/avatars/avatar-2.jpg";
+import avatar3 from "@/assets/avatars/avatar-3.jpg";
+import avatar4 from "@/assets/avatars/avatar-4.jpg";
+import avatar5 from "@/assets/avatars/avatar-5.jpg";
+import avatar6 from "@/assets/avatars/avatar-6.jpg";
 
 interface EmployeeCardProps {
   firstName: string;
@@ -27,18 +33,19 @@ export const EmployeeCard = ({
 }: EmployeeCardProps) => {
   const initials = `${firstName[0]}${lastName[0]}`;
   const fullName = `${firstName} ${lastName}`;
+  
+  const defaultAvatars = [avatar1, avatar2, avatar3, avatar4, avatar5, avatar6];
+  const avatarIndex = (firstName.charCodeAt(0) + lastName.charCodeAt(0)) % defaultAvatars.length;
+  const defaultAvatar = defaultAvatars[avatarIndex];
+  const displayAvatar = avatarUrl || defaultAvatar;
 
   return (
     <Card className="group hover:shadow-[var(--shadow-hover)] transition-all duration-300 border-border overflow-hidden">
       <CardContent className="p-6">
         <div className="flex flex-col items-center text-center">
           {/* Avatar */}
-          <div className="w-24 h-24 rounded-full bg-gradient-to-br from-primary to-primary-dark flex items-center justify-center text-primary-foreground text-2xl font-semibold mb-4 group-hover:scale-105 transition-transform duration-300">
-            {avatarUrl ? (
-              <img src={avatarUrl} alt={fullName} className="w-full h-full rounded-full object-cover" />
-            ) : (
-              <span>{initials}</span>
-            )}
+          <div className="w-24 h-24 rounded-full overflow-hidden mb-4 group-hover:scale-105 transition-transform duration-300 border-2 border-primary/20">
+            <img src={displayAvatar} alt={fullName} className="w-full h-full object-cover" />
           </div>
 
           {/* Name */}
